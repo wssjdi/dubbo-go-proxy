@@ -33,6 +33,7 @@ func init() {
 }
 
 // ApiFilter url match api
+// 这里扩展动态从配置中心加载api配置数据，考虑使用zookeeper做为配置中心，可以监听上线下线
 func ApiFilter() context.FilterFunc {
 	return func(c context.Context) {
 		url := c.GetUrl()

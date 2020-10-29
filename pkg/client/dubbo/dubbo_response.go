@@ -22,10 +22,13 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+	"time"
 )
 
 import (
 	"github.com/dubbogo/dubbo-go-proxy/pkg/client"
+	"github.com/dubbogo/dubbo-go-proxy/pkg/common/constant"
+	"github.com/dubbogo/dubbo-go-proxy/pkg/logger"
 )
 
 // NewDubboResponse create dubbo response
@@ -135,7 +138,12 @@ func humpToLine(in interface{}) interface{} {
 		if v1 == nil {
 			out[x] = v1
 		} else if reflect.TypeOf(v1).Kind() == reflect.Struct {
-			out[x] = humpToLine(struct2Map(v1))
+			if t1, ok := v1.(time.Time); ok {
+				logger.Debugf("[dubboproxy go response] Key [ %s ]'s TypeOf time.Time ? [ %+v ]\n", k1, ok)
+				out[x] = t1.Format(constant.DateTimeFormat)
+			} else {
+				out[x] = humpToLine(struct2Map(v1))
+			}
 		} else if reflect.TypeOf(v1).Kind() == reflect.Slice {
 			value := reflect.ValueOf(v1)
 			var newTemps = make([]interface{}, 0, value.Len())

@@ -62,16 +62,16 @@ static_resources:
       #    expectedstatuses: 200
       registries:
         "zookeeper":
-          - timeout: "3s"
-            address: "10.100.156.17:2181"
-            username: ""
-            password: ""
+          timeout: "3s"
+          address: "10.100.156.17:2181"
+          username: ""
+          password: ""
       #eds_cluster_config:
       #  service_name: ""
       #  eds_config:
       #    path:
       #    api_config_source:
-      #      api_type:                   #[REST/GRPC、DUBBO]
+      #      api_type:                   #[REST/GRPC/DUBBO]
       #      cluster_name: test_dubbo;test_dubbo1
 
   shutdown_config:

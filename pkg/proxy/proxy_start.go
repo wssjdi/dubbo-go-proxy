@@ -69,39 +69,21 @@ func (p *Proxy) beforeStart() {
 	ads := extension.GetMustApiDiscoveryService(constant.LocalMemoryApiDiscoveryService)
 
 	a1 := &model.Api{
-		Name:     "/api/v1/test-dubbo/user",
+		Name:     "/api/v1/station/member/name",
 		ITypeStr: "HTTP",
 		OTypeStr: "DUBBO",
 		Method:   "POST",
 		Status:   1,
 		Metadata: map[string]dubbo.DubboMetadata{
 			"dubbo": {
-				ApplicationName: "BDTService",
-				Group:           "test",
-				Version:         "1.0.0",
-				Interface:       "com.ikurento.user.UserProvider",
-				Method:          "queryUser",
+				ApplicationName: "station",
+				Group:           "",
+				Version:         "0.0.1",
+				Interface:       "com.chebada.station.service.MemberService",
+				Method:          "getMemberByName",
+				Retries:         "1",
 				Types: []string{
-					"com.ikurento.user.User",
-				},
-				ClusterName: "test_dubbo",
-			},
-		},
-	}
-	a2 := &model.Api{
-		Name:     "/api/v1/test-dubbo/getUserByName",
-		ITypeStr: "HTTP",
-		OTypeStr: "DUBBO",
-		Method:   "POST",
-		Status:   1,
-		Metadata: map[string]dubbo.DubboMetadata{
-			"dubbo": {
-				ApplicationName: "BDTService",
-				Group:           "test",
-				Version:         "1.0.0",
-				Interface:       "com.ikurento.user.UserProvider",
-				Method:          "GetUser",
-				Types: []string{
+					"java.lang.Long",
 					"java.lang.String",
 				},
 				ClusterName: "test_dubbo",
@@ -110,9 +92,107 @@ func (p *Proxy) beforeStart() {
 	}
 
 	j1, _ := json.Marshal(a1)
-	j2, _ := json.Marshal(a2)
 	ads.AddApi(*service.NewDiscoveryRequest(j1))
+
+	a2 := &model.Api{
+		Name:     "/api/v1/station/member",
+		ITypeStr: "HTTP",
+		OTypeStr: "DUBBO",
+		Method:   "POST",
+		Status:   1,
+		Metadata: map[string]dubbo.DubboMetadata{
+			"dubbo": {
+				ApplicationName: "station",
+				Group:           "",
+				Version:         "0.0.1",
+				Interface:       "com.chebada.station.service.MemberService",
+				Method:          "getMember",
+				Retries:         "1",
+				Types: []string{
+					"java.lang.Long",
+				},
+				ClusterName: "test_dubbo",
+			},
+		},
+	}
+
+	j2, _ := json.Marshal(a2)
 	ads.AddApi(*service.NewDiscoveryRequest(j2))
+
+	a3 := &model.Api{
+		Name:     "/api/v1/station/airport",
+		ITypeStr: "HTTP",
+		OTypeStr: "DUBBO",
+		Method:   "POST",
+		Status:   1,
+		Metadata: map[string]dubbo.DubboMetadata{
+			"dubbo": {
+				ApplicationName: "station",
+				Group:           "",
+				Version:         "0.0.1",
+				Interface:       "com.chebada.station.service.AirportService",
+				Method:          "findAll",
+				Retries:         "1",
+				Types: []string{
+					"com.chebada.station.request.Area",
+				},
+				ClusterName: "test_dubbo",
+			},
+		},
+	}
+
+	j3, _ := json.Marshal(a3)
+	ads.AddApi(*service.NewDiscoveryRequest(j3))
+
+	a4 := &model.Api{
+		Name:     "/api/v1/station/bus",
+		ITypeStr: "HTTP",
+		OTypeStr: "DUBBO",
+		Method:   "POST",
+		Status:   1,
+		Metadata: map[string]dubbo.DubboMetadata{
+			"dubbo": {
+				ApplicationName: "station",
+				Group:           "",
+				Version:         "0.0.1",
+				Interface:       "com.chebada.station.service.BusStationService",
+				Method:          "findAll",
+				Retries:         "1",
+				Types: []string{
+					"com.chebada.station.request.Area",
+				},
+				ClusterName: "test_dubbo",
+			},
+		},
+	}
+
+	j4, _ := json.Marshal(a4)
+	ads.AddApi(*service.NewDiscoveryRequest(j4))
+
+	a5 := &model.Api{
+		Name:     "/api/v1/station/train",
+		ITypeStr: "HTTP",
+		OTypeStr: "DUBBO",
+		Method:   "POST",
+		Status:   1,
+		Metadata: map[string]dubbo.DubboMetadata{
+			"dubbo": {
+				ApplicationName: "station",
+				Group:           "",
+				Version:         "0.0.1",
+				Interface:       "com.chebada.station.service.TrainStationService",
+				Method:          "findAll",
+				Retries:         "1",
+				Types: []string{
+					"com.chebada.station.request.Area",
+				},
+				ClusterName: "test_dubbo",
+			},
+		},
+	}
+
+	j5, _ := json.Marshal(a5)
+	ads.AddApi(*service.NewDiscoveryRequest(j5))
 }
 
 // NewProxy create proxy
